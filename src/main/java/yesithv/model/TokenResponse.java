@@ -1,4 +1,4 @@
-package yesithv.controller;
+package yesithv.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

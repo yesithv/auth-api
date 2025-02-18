@@ -1,4 +1,4 @@
-package yesithv;
+package yesithv.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import yesithv.model.LoginRequest;
 import yesithv.model.RegisterRequest;
 import yesithv.model.TokenResponse;
+import yesithv.services.AuthService;
 
 @RestController
 @RequestMapping("/auth")

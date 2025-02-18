@@ -1,4 +1,4 @@
-package yesithv.controller;
+package yesithv.model;
 
 public record LoginRequest(
         String email,

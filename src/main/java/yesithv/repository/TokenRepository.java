@@ -1,4 +1,7 @@
 package yesithv.repository;
 
-public class TokenRepository {
+import org.springframework.data.repository.CrudRepository;
+import yesithv.model.Token;
+
+public interface TokenRepository extends CrudRepository<Token, Long> {
 }
