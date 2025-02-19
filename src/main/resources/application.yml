@@ -4,14 +4,14 @@ server:
 application:
   security:
     jwt:
-      secret-key: fo3kouuUU88779BGTFKchDGDB33bi73bdkhwabIygwbjh
-      expiration: 864000 # 1 day
+      secret-key: c29tZS1zdXBlci1zZWNyZXQta2V5LXRvLXVzZS1pbi1qd3Q=
+      expiration: 86400000  # 1 day
       refresh-token:
         expiration: 604800000 # 7 days
 
 spring:
   application:
-    name: auth-api
+    name: auth-api@
   datasource:
     url: jdbc:postgresql://127.0.0.1:5432/db_nutry_app
     username: root

@@ -1,8 +1,11 @@
 package yesithv.controllers;
 
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -14,7 +17,7 @@ import yesithv.model.TokenResponse;
 import yesithv.services.AuthService;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/auth-api/v1")
 @RequiredArgsConstructor
 public class AuthController {
 
@@ -35,5 +38,10 @@ public class AuthController {
     @PostMapping("/refresh")
     public TokenResponse refreshToken(@RequestHeader(HttpHeaders.AUTHORIZATION) final String authHeader) {
         return service.refreshToken(authHeader);
+    }
+
+    @GetMapping("/health/{name}")
+    public String greetings(@PathVariable String name) {
+        return "Hello " + name;
     }
 }
