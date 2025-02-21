@@ -1,6 +1,8 @@
 package yesithv.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import yesithv.model.LoginRequest;
@@ -11,6 +13,8 @@ import yesithv.model.User;
 import yesithv.repository.TokenRepository;
 import yesithv.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -18,6 +22,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final TokenRepository tokenRepository;
     private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public TokenResponse register(RegisterRequest request) {
         var user = User.builder()
@@ -45,7 +50,29 @@ public class AuthService {
     }
 
     public TokenResponse login(LoginRequest request) {
-        return null;
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.email(),
+                        request.password()
+                )
+        );
+        var user = userRepository.findByEmail(request.email()).orElseThrow();
+        var jwtToken = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
+        revokeAllUserTokens(user); // Para que sólo se tenga 1 sesion activa por usuario; Esto depende de la Logica de negocio
+        saveUserToken(user, jwtToken);
+        return new TokenResponse(jwtToken, refreshToken);
+    }
+
+    private void revokeAllUserTokens(final User user) {
+        final List<Token> validUserTokens = tokenRepository.findAllValidIsFalseOrRevokedIsFalseByUserId(user.getId());
+        if (!validUserTokens.isEmpty()) {
+            for (final Token token : validUserTokens) {
+                token.setExpired(Boolean.TRUE);
+                token.setRevoked(Boolean.FALSE);
+            }
+            tokenRepository.saveAll(validUserTokens);
+        }
     }
 
     public TokenResponse refreshToken(String authHeader) {
