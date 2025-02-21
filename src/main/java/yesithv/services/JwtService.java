@@ -1,5 +1,6 @@
 package yesithv.services;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -47,5 +48,33 @@ public class JwtService {
     private SecretKey getSignInKey() {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public String extractEmail(String token) {
+        final Claims jwtToken = Jwts.parser()
+                .verifyWith(getSignInKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return jwtToken.getSubject(); // para nosotros el username, osea el email
+    }
+
+    public boolean isTokenValid(final String token, final User user) {
+        final String userName = extractEmail(token);
+        return (userName.equals(user.getEmail()) && !isTokenExpired(token));
+    }
+
+    private boolean isTokenExpired(final String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    private Date extractExpiration(String token) {
+        final Claims jwtToken = Jwts.parser()
+                .verifyWith(getSignInKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return jwtToken.getExpiration();
+
     }
 }

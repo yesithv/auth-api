@@ -3,6 +3,7 @@ package yesithv.services;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import yesithv.model.LoginRequest;
@@ -75,8 +76,24 @@ public class AuthService {
         }
     }
 
-    public TokenResponse refreshToken(String authHeader) {
-        return null;
+    public TokenResponse refreshToken(final String authHeader) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Invalid Bearer Token");
+        }
+        final String refreshToken = authHeader.substring(7);
+        final String userEmail = jwtService.extractEmail(refreshToken);
+        if (userEmail == null) {
+            throw new IllegalArgumentException("Invalid refresh Token");
+        }
+        final User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UsernameNotFoundException(userEmail));
+        if (!jwtService.isTokenValid(refreshToken, user)) {
+            throw new IllegalArgumentException("Invalid refresh token");
+        }
+        final String accessToken = jwtService.generateToken(user);
+        revokeAllUserTokens(user);
+        saveUserToken(user, accessToken);
+        return new TokenResponse(accessToken, refreshToken);
     }
 
 }
