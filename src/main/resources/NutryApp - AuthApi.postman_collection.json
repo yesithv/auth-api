@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "3950a95c-beff-436e-8978-4a00c5b2c268",
+		"name": "NutryApp - AuthApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17690723"
+	},
+	"item": [
+		{
+			"name": "Health",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/auth-api/v1/health/Yesith",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth-api",
+						"v1",
+						"health",
+						"Yesith"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Jhon  Doe\",\r\n    \"password\": \"abc1234\",\r\n    \"email\": \"jhondoe@mail.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/auth-api/v1/register",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth-api",
+						"v1",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"jhondoe@mail.com\",\r\n    \"password\": \"abc1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/auth-api/v1/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth-api",
+						"v1",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Refresh",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzZGFkZGNmNy1kM2U5LTQ5OGItYjExNC0xOTQ4YWNhNDQxMTEiLCJuYW1lIjoiSmhvbiAgRG9lIiwic3ViIjoiamhvbmRvZUBtYWlsLmNvbSIsImlhdCI6MTc0MDUyMjc1MCwiZXhwIjoxNzQwNjA5MTUwfQ.7WMo0GUtYjMCZwsNWW-wlehjfDxrRLlXRbnkHLNQe_Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/auth-api/v1/refresh",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth-api",
+						"v1",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIzZGFkZGNmNy1kM2U5LTQ5OGItYjExNC0xOTQ4YWNhNDQxMTEiLCJuYW1lIjoiSmhvbiAgRG9lIiwic3ViIjoiamhvbmRvZUBtYWlsLmNvbSIsImlhdCI6MTc0MDUyMjc1MCwiZXhwIjoxNzQwNjA5MTUwfQ.7WMo0GUtYjMCZwsNWW-wlehjfDxrRLlXRbnkHLNQe_Y",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"jhondoe@mail.com\",\r\n    \"password\": \"abc1234\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/auth-api/v1/logout",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth-api",
+						"v1",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
